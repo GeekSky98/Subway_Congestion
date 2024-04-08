@@ -18,6 +18,11 @@ spec:
           ports:
             - containerPort: 8081
           env:
+            - name: POSTGRES_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: postgres-host
             - name: POSTGRES_DB
               valueFrom:
                 secretKeyRef:
