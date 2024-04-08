@@ -7,11 +7,6 @@ import (
 	"net/http"
 )
 
-type Counting struct {
-	TotalPassengers    int `json:"total_passengers"`
-	AlightedPassengers int `json:"alighted_passengers"`
-}
-
 func getLineCounting(w http.ResponseWriter, r *http.Request) {
 	lineID := r.URL.Query().Get("line_id")
 	if lineID == "" {
@@ -45,12 +40,4 @@ func getLineCounting(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error encoding JSON", http.StatusInternalServerError)
 		return
 	}
-}
-
-func main() {
-	ConnectDB()
-	defer Db.Close()
-
-	http.HandleFunc("/line_counting", getLineCounting)
-	log.Fatal(http.ListenAndServe(":8082", nil))
 }

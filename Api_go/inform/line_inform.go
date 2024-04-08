@@ -7,11 +7,6 @@ import (
 	"net/http"
 )
 
-type Line struct {
-	LineID   int    `json:"line_id"`
-	LineName string `json:"line_name"`
-}
-
 func getLines(w http.ResponseWriter, r *http.Request) {
 	query := "SELECT line_id, line_name FROM Lines"
 	rows, err := Db.Query(query)
@@ -37,12 +32,4 @@ func getLines(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error encoding JSON", http.StatusInternalServerError)
 		return
 	}
-}
-
-func main() {
-	ConnectDB()
-	defer Db.Close()
-
-	http.HandleFunc("/lines", getLines)
-	log.Fatal(http.ListenAndServe(":8080", nil))
 }

@@ -41,11 +41,3 @@ func getStationCounting(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
-
-func main() {
-	ConnectDB()
-	defer Db.Close()
-
-	defer http.HandleFunc("/station_counting", getStationCounting)
-	log.Fatal(http.ListenAndServe(":8083", nil))
-}

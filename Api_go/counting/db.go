@@ -5,13 +5,14 @@ import (
 	"fmt"
 	_ "github.com/lib/pq"
 	"log"
+	"os"
 )
 
-const (
-	host     = "localhost"
-	database = "temp_subway"
-	user     = "geeksky"
-	passwd   = "geeksky"
+var (
+	host     = os.Getenv("POSTGRES_HOST")
+	database = os.Getenv("POSTGRES_DB")
+	user     = os.Getenv("POSTGRES_USER")
+	passwd   = os.Getenv("POSTGRES_PASSWORD")
 )
 
 var Db *sql.DB

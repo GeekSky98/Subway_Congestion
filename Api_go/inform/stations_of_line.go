@@ -7,12 +7,6 @@ import (
 	"net/http"
 )
 
-type Station struct {
-	StationID   int    `json:"station_id"`
-	StationName string `json:"station_name"`
-	TrainCount  int    `json:"train_count"`
-}
-
 func getStationsOfLine(w http.ResponseWriter, r *http.Request) {
 	lineID := r.URL.Query().Get("line_id")
 	if lineID == "" {
@@ -43,12 +37,4 @@ func getStationsOfLine(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error encoding JSON", http.StatusInternalServerError)
 		return
 	}
-}
-
-func main() {
-	ConnectDB()
-	defer Db.Close()
-
-	http.HandleFunc("/statinsOfLine", getStationsOfLine)
-	log.Fatal(http.ListenAndServe(":8081", nil))
 }
