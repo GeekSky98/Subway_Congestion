@@ -1,4 +1,18 @@
--- 1. 승객 정보 데이터
+-- 1. 호선 정보
+CREATE TABLE Lines (
+    line_id SERIAL PRIMARY KEY,
+    line_name VARCHAR(255) NOT NULL
+);
+
+-- 2. 지하철 역 정보
+CREATE TABLE Stations (
+    station_id SERIAL PRIMARY KEY,
+    station_name VARCHAR(255) NOT NULL,
+    train_count INTEGER NOT NULL,
+    line_id INTEGER REFERENCES Lines(line_id)
+);
+
+-- 3. 승객 정보 데이터
 CREATE TABLE PassengerInfo (
     passenger_id SERIAL PRIMARY KEY,
     encrypted_card_id VARCHAR(255) NOT NULL,
@@ -10,20 +24,6 @@ CREATE TABLE PassengerInfo (
     alighting_time TIMESTAMP
 );
 
--- 2. 지하철 역 정보
-CREATE TABLE Stations (
-    station_id SERIAL PRIMARY KEY,
-    station_name VARCHAR(255) NOT NULL,
-    train_count INTEGER NOT NULL,
-    line_id INTEGER REFERENCES Lines(line_id)
-);
-
--- 3. 호선 정보
-CREATE TABLE Lines (
-    line_id SERIAL PRIMARY KEY,
-    line_name VARCHAR(255) NOT NULL
-);
-
 -- 4. 지하철 역 승객 기록
 CREATE TABLE StationPassengerRecords (
     record_id SERIAL PRIMARY KEY,
@@ -33,7 +33,7 @@ CREATE TABLE StationPassengerRecords (
     line_id INTEGER REFERENCES Lines(line_id)
 );
 
--- 6. 현재 호선의 승객 수(카운팅)
+-- 5. 현재 호선의 승객 수(카운팅)
 CREATE TABLE LinePassengerCount (
     count_id SERIAL PRIMARY KEY,
     line_id INTEGER REFERENCES Lines(line_id),
@@ -42,7 +42,7 @@ CREATE TABLE LinePassengerCount (
     alighted_passengers INTEGER DEFAULT 0
 );
 
--- 7. 현재 역의 승객 수(카운팅)
+-- 6. 현재 역의 승객 수(카운팅)
 CREATE TABLE StationPassengerCount (
     count_id SERIAL PRIMARY KEY,
     station_id INTEGER REFERENCES Stations(station_id),
