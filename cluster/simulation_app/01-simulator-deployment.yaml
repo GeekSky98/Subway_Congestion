@@ -16,8 +16,13 @@ spec:
         - name: simulator
           image: python:3.9-slim
           command: ["python"]
-          args: ["./simulator.py"]
+          args: ["/app/simulator.py"]
           env:
+            - name: POSTGRES_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: postgres-host
             - name: POSTGRES_DB
               valueFrom:
                 secretKeyRef:
