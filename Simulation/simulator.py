@@ -8,7 +8,7 @@ class SimulatorSubway():
     PASSWD = os.environ.get("POSTGRES_PASSWORD", "geeksky")
     ID_LENGTH = 24
     THREAD_NUM = 3
-    LAST_TIME = 12 * 60 + 30
+    LAST_TIME = 23 * 60 + 30
     def __init__(self):
         self.passenger_list = []
         try:
@@ -223,6 +223,7 @@ class SimulatorSubway():
 
             queue_data = (index, [card_id, date, dt_line_id, dt_station_id])
             heappush(self.passenger_list, queue_data)
+            logging.info(f"Passenger: From {line_id}-{station_id} To {dt_line_id}-{dt_station_id}")
 
             time.sleep(random.uniform(0, 5))
             if index >= self.LAST_TIME:
@@ -230,7 +231,7 @@ class SimulatorSubway():
 
     def alighting_thread(self):
         while self.passenger_list or self.generate_flag:
-            if self.passenger_list and self.passenger_list[0][0] >= self.to_minute(datetime.datetime.now()):
+            if self.passenger_list and self.passenger_list[0][0] <= self.to_minute(datetime.datetime.now()):
                 _, inform = heappop(self.passenger_list)
                 card, bd_date, line_id, station_id = inform
                 self.update_passenger_alight_info(line_id, station_id, datetime.datetime.now(), card, bd_date)
