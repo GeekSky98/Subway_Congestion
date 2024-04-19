@@ -1,0 +1,19 @@
+{
+	"data_input": {
+		"postPassengerBoarding": "승객 승차 시 DB POST API",
+		"postPassengerAlighting": "승객 하차 시 DB POST API",
+		"postLineDetail": "line_detail 설명 부분 수정 시 사용하는 POST API",
+		"postStationDetail": "station_detail 설명 부분 수정 시 사용하는 POST API"
+	},
+	"inform_api": {
+		"getLines": "모든 호선에 대한 정보를 가져오는 GET API",
+		"getStationOfLine": "특정 호선의 역 정보를 가져오는 GET API"
+	},
+	"uses_case": {
+		"getLineCounting": "특정 호선의 현재 이용 승객수를 가져오는 GET API",
+		"getStationCounting": "특정 역의 현재 시간대, 이전 시간대 승객 수를 가져오는 GET API",
+		"getWeekCountAverage": "일주일의 시간별 평균 승객 수를 가져오는 GET API",
+		"getStationCongestion": "과거 시간대 대비 현재 시간의 승객 혼잡도를 가져오는 GET API"
+	}
+}
+// Swagger 문서로 변경 필요
