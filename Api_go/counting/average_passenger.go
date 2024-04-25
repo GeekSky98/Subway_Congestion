@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
+	"errors"
 	_ "github.com/lib/pq"
 	"log"
 	"net/http"
@@ -17,23 +18,23 @@ func getDayCountAverage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	query := `
-	WITH RelebatDays AS (
+	WITH RelevantDays AS (
 	    SELECT record_day
 	    FROM DateStationCount
-	    WHERE EXTRACT(DOW FROM record_day) = $4 AND recorday < $3 AND holiday_check = FALSE
+	    WHERE EXTRACT(DOW FROM record_day) = $4 AND record_day < $3 AND holiday_check = FALSE
 	    ORDER BY record_day DESC
 	    LIMIT 4
 	)
 	SELECT 
 	    AVG(total_passengers) AS avg_day,
-		AVG(CASE WHEN record_hour = $5 THEN total_passengers ELSE NULL END) AS avg_hour
+		AVG(CASE WHEN record_hour = $5 THEN total_passengers END) AS avg_hour
 	FROM DateStationCount
-	WHERE line_id = $1 AND station_id = $2 AND record_day IN (SELECT record_day FROM RelebatDays)
+	WHERE line_id = $1 AND station_id = $2 AND record_day IN (SELECT record_day FROM RelevantDays)
 	`
 	var AvgDay, AvgHour sql.NullInt64
 	err = Db.QueryRow(query, req.LineID, req.StationID, req.TodayDate, req.DayOfWeek, req.Hour).Scan(&AvgDay, &AvgHour)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
 			http.Error(w, "Not found", http.StatusNotFound)
 			return
 		}

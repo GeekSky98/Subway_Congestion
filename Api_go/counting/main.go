@@ -7,7 +7,7 @@ import (
 
 func main() {
 	ConnectDB()
-	defer Db.Close()
+	defer CloseDB()
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/line_counting", getLineCounting)

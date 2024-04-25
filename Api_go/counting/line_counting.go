@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
+	"errors"
 	_ "github.com/lib/pq"
 	"log"
 	"net/http"
@@ -20,7 +21,7 @@ func getLineCounting(w http.ResponseWriter, r *http.Request) {
 	var response LineCounting
 	err = Db.QueryRow(query, req.LineID, req.RecordDate).Scan(&response.TotalPassengers, &response.AlightedPassengers)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
 			http.Error(w, "line_id and record_date not found", http.StatusNotFound)
 			return
 		}

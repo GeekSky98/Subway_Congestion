@@ -32,3 +32,9 @@ func ConnectDB() {
 
 	fmt.Println("Successfully connected to database")
 }
+
+func CloseDB() {
+	if err := Db.Close(); err != nil {
+		log.Printf("Failed to close database connection: %v", err)
+	}
+}

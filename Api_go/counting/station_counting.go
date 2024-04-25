@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"encoding/json"
+	"errors"
 	_ "github.com/lib/pq"
 	"log"
 	"net/http"
@@ -26,7 +27,7 @@ func getStationCounting(w http.ResponseWriter, r *http.Request) {
 	var currentPassengers, previousPassengers sql.NullInt64
 	err = Db.QueryRow(query, req.StationID, req.RecordDay, req.RecordHour).Scan(&currentPassengers, &previousPassengers)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
 			http.Error(w, "station_id and record_date not found", http.StatusNotFound)
 			return
 		}

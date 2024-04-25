@@ -7,14 +7,18 @@ import (
 	"net/http"
 )
 
-func getLines(w http.ResponseWriter, r *http.Request) {
+func getLines(w http.ResponseWriter, _ *http.Request) {
 	query := "SELECT line_id, line_name FROM Lines"
 	rows, err := Db.Query(query)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	defer rows.Close()
+	defer func() {
+		if err := rows.Close(); err != nil {
+			log.Printf("Error closing rows: %v", err)
+		}
+	}()
 
 	var lines []Line
 	for rows.Next() {
