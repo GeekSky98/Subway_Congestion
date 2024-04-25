@@ -26,3 +26,18 @@ type StationCounting struct {
 	PrevPassengers     *int   `json:"prev_passengers"`
 	ThisTimePassengers *int   `json:"this_time_passengers"`
 }
+
+type StationDayAverRequest struct {
+	LineID    int    `json:"line_id"`
+	StationID int    `json:"station_id"`
+	TodayDate string `json:"today_date"`
+	DayOfWeek int    `json:"day_of_week"`
+	Hour      int    `json:"hour"`
+}
+
+type StationDayAver struct {
+	LineID    int  `json:"line_id"`
+	StationID int  `json:"station_id"`
+	DayAver   *int `json:"day_aver"`
+	HourAver  *int `json:"hour_aver"`
+}

@@ -12,8 +12,8 @@
 	"uses_case": {
 		"getLineCounting": "특정 호선의 현재 이용 승객수를 가져오는 GET API",
 		"getStationCounting": "특정 역의 현재 시간대, 이전 시간대 승객 수를 가져오는 GET API",
-		"getWeekCountAverage": "일주일의 시간별 평균 승객 수를 가져오는 GET API",
-		"getStationCongestion": "과거 시간대 대비 현재 시간의 승객 혼잡도를 가져오는 GET API"
+		"getDayCountAverage": "일주일의 시간별 평균 승객 수를 가져오는 GET API",
+		"getStationCongestion": "과거 시간대 대비 현재 시간의 승객 혼잡도를 가져오는 GET API" // 하둡 & Spark로 구현
 	}
 }
 // Swagger 문서로 변경 필요
