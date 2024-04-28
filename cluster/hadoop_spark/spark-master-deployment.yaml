@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-master-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spark-master
+  template:
+    metadata:
+      labels:
+        app: spark-master
+    spec:
+      containers:
+        - name: spark-master
+          image: bitnami/spark
+          env:
+            - name: SPARK_MODE
+              value: master
+          ports:
+            - containerPort: 3033
+            - containerPort: 4040

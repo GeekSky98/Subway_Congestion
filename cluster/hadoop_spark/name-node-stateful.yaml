@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: namenode-state
+spec:
+  serviceName: "namenode"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: namenode
+  template:
+    metadata:
+      labels:
+        app: namenode
+    spec:
+      containers:
+        - name: namenode
+          image: harisekhon/hadoop
+          env:
+            - name: HADOOP_CONF_DIR
+              value: "/etc/hadoop/conf.namenode"
+          ports:
+            - containerPort: 8020
+          command: ["/bin/bash", "-c"]
+          args:
+            - "hadoop-daemon.sh start namenode; tail -f /dev/null"
+          volumeMounts:
+            - name: namenode-storage
+              mountPath: /hadoop/dfs/name
+  volumeClaimTemplates:
+  - metadata:
+      name: namenode-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "standard"
+      resources:
+        requests:
+          storage: 5Gi

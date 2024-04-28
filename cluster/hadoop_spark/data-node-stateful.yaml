@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: datanode-state
+spec:
+  serviceName: "datanode"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: datanode
+  template:
+    metadata:
+      labels:
+        app: datanode
+    spec:
+      containers:
+        - name: datanode
+          image: harisekhon/hadoop
+          env:
+            - name: HADOOP_CONF_DIR
+              value: "/etc/hadoop/conf.datanode"
+          ports:
+            - containerPort: 50010
+          command: ["/bin/bash", "-c"]
+          args:
+            - "hadoop-daemon.sh start datanode; tail -f /dev/null"
+          volumeMounts:
+            - name: datanode-storage
+              mountPath: /hadoop/dfs/data
+  volumeClaimTemplates:
+  - metadata:
+      name: datanode-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "standard"
+      resources:
+        requests:
+          storage: 5Gi          
