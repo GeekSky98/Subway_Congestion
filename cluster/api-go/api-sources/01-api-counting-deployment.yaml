@@ -1,0 +1,43 @@
+apiVersion: app/v1
+kind: Deployment
+metadata:
+  name: api-sources
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api-sources
+  template:
+    metadata:
+      labels:
+        app: api-sources
+    spec:
+      containers:
+        - name: api-sources
+          image: geeksky/api-sources:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: POSTGRES_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: postgres-host
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: postgres-database
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: postgres-username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-secret
+                  key: postgres-password
+      volumes:
+        - name: caching
+          emptyDir: {}
