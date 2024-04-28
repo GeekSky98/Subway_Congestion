@@ -14,17 +14,115 @@ const docTemplate = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {}
+    "paths": {
+        "/lines": {
+            "get": {
+                "description": "Query all information about the line",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Informations"
+                ],
+                "summary": "Get Line informations",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved list of subway lines",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/main.Line"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error - Error querying database or encoding JSON",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/statinsOfLine": {
+            "get": {
+                "description": "Query information about all stations on the line",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Informations"
+                ],
+                "summary": "Get station informations of line",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Line ID for query",
+                        "name": "line_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved list of subway stations",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/main.Station"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error - Error querying database or encoding JSON",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "main.Line": {
+            "type": "object",
+            "properties": {
+                "line_id": {
+                    "type": "integer"
+                },
+                "line_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.Station": {
+            "type": "object",
+            "properties": {
+                "station_id": {
+                    "type": "integer"
+                },
+                "station_name": {
+                    "type": "string"
+                },
+                "train_count": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
-	Host:             "",
-	BasePath:         "",
+	Version:          "0.0.0",
+	Host:             "localhost:8081",
+	BasePath:         "/app/v1",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "Subway Congestion GO-API",
+	Description:      "This service is a Go based API for elementary information",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

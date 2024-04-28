@@ -9,6 +9,20 @@ import (
 	"net/http"
 )
 
+// @Summary Get Number of passenger of the Station
+// @Description Check the number of passengers in the current and previous hours
+// @Tags Counting
+// @Accept json
+// @produce json
+// @Param line_id query int true "Lien id of target station"
+// @Param station_id query int true "station id to look up"
+// @Param record_day query string true "Date to look up"
+// @Param record_hour query int true "Hour to look up"
+// @Success 200 {object} StationCounting "Successfully retrieved passenger counts"
+// @Failure 400 {string} badRequest "Bad request - Error decoding JSON"
+// @Failure 404 {string} notFound "Not found - Station ID and record details not found"
+// @Failure 500 {string} serverError "Internal server error - Error querying database or encoding JSON"
+// @Router /station_counting [get]
 func getStationCounting(w http.ResponseWriter, r *http.Request) {
 	var req StationCountingRequest
 	err := json.NewDecoder(r.Body).Decode(&req)

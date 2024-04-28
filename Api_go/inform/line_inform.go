@@ -7,6 +7,13 @@ import (
 	"net/http"
 )
 
+// @Summary Get Line informations
+// @Description Query all information about the line
+// @Tags Informations
+// @Produce json
+// @Success 200 {array} Line "Successfully retrieved list of subway lines"
+// @Failure 500 {string} string "Internal server error - Error querying database or encoding JSON"
+// @Router /lines [get]
 func getLines(w http.ResponseWriter, _ *http.Request) {
 	query := "SELECT line_id, line_name FROM Lines"
 	rows, err := Db.Query(query)

@@ -1,4 +1,187 @@
+basePath: /app/v1
+definitions:
+  main.LineCounting:
+    properties:
+      alighted_passengers:
+        type: integer
+      line_id:
+        type: integer
+      record_date:
+        type: string
+      total_passengers:
+        type: integer
+    type: object
+  main.StationCounting:
+    properties:
+      prev_passengers:
+        type: integer
+      record_day:
+        type: string
+      record_hour:
+        type: integer
+      station_id:
+        type: integer
+      this_time_passengers:
+        type: integer
+    type: object
+  main.StationDayAver:
+    properties:
+      day_aver:
+        type: integer
+      hour_aver:
+        type: integer
+      line_id:
+        type: integer
+      station_id:
+        type: integer
+    type: object
+host: localhost:8082
 info:
   contact: {}
-paths: {}
+  description: This service is a Go based API for counting
+  title: Subway Congestion GO-API
+  version: 0.0.0
+paths:
+  /day_count_average:
+    get:
+      consumes:
+      - application/json
+      description: Look up average pssengers of particular time
+      parameters:
+      - description: Line id to look up
+        in: query
+        name: line_id
+        required: true
+        type: integer
+      - description: Station id to look up
+        in: query
+        name: station_id
+        required: true
+        type: integer
+      - description: Today's date to look up
+        in: query
+        name: today_date
+        required: true
+        type: integer
+      - description: Day of week to look up
+        in: query
+        name: day_of_week
+        required: true
+        type: integer
+      - description: Hour to look up
+        in: query
+        name: hour
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully calculated and retrieved average passenger counts
+          schema:
+            $ref: '#/definitions/main.StationDayAver'
+        "400":
+          description: Bad request - Error decoding JSON
+          schema:
+            type: string
+        "404":
+          description: Not found - No data available for the given parameters
+          schema:
+            type: string
+        "500":
+          description: Internal server error - Error querying database or encoding
+            JSON
+          schema:
+            type: string
+      summary: Get Average number of passengers at a particular time
+      tags:
+      - Average
+  /line_counting:
+    get:
+      consumes:
+      - application/json
+      description: Look up the number of passengers on a line on a particular date
+      parameters:
+      - description: Line ID of int type
+        in: query
+        name: line_id
+        required: true
+        type: integer
+      - description: Today's date of DATE type
+        in: query
+        name: record_date
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved passenger counts
+          schema:
+            $ref: '#/definitions/main.LineCounting'
+        "400":
+          description: Bad request - Error decoding JSON
+          schema:
+            type: string
+        "404":
+          description: Not found - Line ID and record date not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error - Error querying database or encoding
+            JSON
+          schema:
+            type: string
+      summary: Get Number of passenger of the line
+      tags:
+      - Counting
+  /station_counting:
+    get:
+      consumes:
+      - application/json
+      description: Check the number of passengers in the current and previous hours
+      parameters:
+      - description: Lien id of target station
+        in: query
+        name: line_id
+        required: true
+        type: integer
+      - description: station id to look up
+        in: query
+        name: station_id
+        required: true
+        type: integer
+      - description: Date to look up
+        in: query
+        name: record_day
+        required: true
+        type: string
+      - description: Hour to look up
+        in: query
+        name: record_hour
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved passenger counts
+          schema:
+            $ref: '#/definitions/main.StationCounting'
+        "400":
+          description: Bad request - Error decoding JSON
+          schema:
+            type: string
+        "404":
+          description: Not found - Station ID and record details not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error - Error querying database or encoding
+            JSON
+          schema:
+            type: string
+      summary: Get Number of passenger of the Station
+      tags:
+      - Counting
 swagger: "2.0"

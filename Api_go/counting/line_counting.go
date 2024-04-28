@@ -9,6 +9,18 @@ import (
 	"net/http"
 )
 
+// @Summary Get Number of passenger of the line
+// @Description Look up the number of passengers on a line on a particular date
+// @Tags Counting
+// @Accept json
+// @produce json
+// @Param line_id query int true "Line ID of int type"
+// @Param record_date query string true "Today's date of DATE type"
+// @Success 200 {object} LineCounting "Successfully retrieved passenger counts"
+// @Failure 400 {string} badRequest "Bad request - Error decoding JSON"
+// @Failure 404 {string} notFound "Not found - Line ID and record date not found"
+// @Failure 500 {string} serverError "Internal server error - Error querying database or encoding JSON"
+// @Router /line_counting [get]
 func getLineCounting(w http.ResponseWriter, r *http.Request) {
 	var req LineCountingRequest
 	err := json.NewDecoder(r.Body).Decode(&req)

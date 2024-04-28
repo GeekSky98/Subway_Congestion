@@ -1,7 +1,110 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "description": "This service is a Go based API for elementary information",
+        "title": "Subway Congestion GO-API",
+        "contact": {},
+        "version": "0.0.0"
     },
-    "paths": {}
+    "host": "localhost:8081",
+    "basePath": "/app/v1",
+    "paths": {
+        "/lines": {
+            "get": {
+                "description": "Query all information about the line",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Informations"
+                ],
+                "summary": "Get Line informations",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved list of subway lines",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/main.Line"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error - Error querying database or encoding JSON",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/statinsOfLine": {
+            "get": {
+                "description": "Query information about all stations on the line",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Informations"
+                ],
+                "summary": "Get station informations of line",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Line ID for query",
+                        "name": "line_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved list of subway stations",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/main.Station"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error - Error querying database or encoding JSON",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "main.Line": {
+            "type": "object",
+            "properties": {
+                "line_id": {
+                    "type": "integer"
+                },
+                "line_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.Station": {
+            "type": "object",
+            "properties": {
+                "station_id": {
+                    "type": "integer"
+                },
+                "station_name": {
+                    "type": "string"
+                },
+                "train_count": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
 }

@@ -7,6 +7,18 @@ import (
 	"net/http"
 )
 
+// @Summary Post Station details
+// @Description Post description of a particular station
+// @Tags Post
+// @Accept json
+// @produce json
+// @Param line_id query int true "Line id to modify the description"
+// @Param station_id query int true "Station id to modify the description"
+// @Param station_detail query string true "Description of the station"
+// @Success 201 {string} Posting "Station detail record modified successfully"
+// @Failure 400 {string} badRequest "Bad request - Error decoding JSON or missing required fields"
+// @Failure 500 {string} serverError "Internal server error - Error updating data"
+// @Router /post_station_detail [post]
 func postStationDetail(w http.ResponseWriter, r *http.Request) {
 	var info StationDetails
 

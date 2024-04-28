@@ -7,6 +7,15 @@ import (
 	"net/http"
 )
 
+// @Summary Get station informations of line
+// @Description Query information about all stations on the line
+// @Tags Informations
+// @Accept json
+// @Produce json
+// @Param line_id query int true "Line ID for query"
+// @Success 200 {array} Station "Successfully retrieved list of subway stations"
+// @Failure 500 {string} serverError "Internal server error - Error querying database or encoding JSON"
+// @Router /statinsOfLine [get]
 func getStationsOfLine(w http.ResponseWriter, r *http.Request) {
 	lineID := r.URL.Query().Get("line_id")
 	if lineID == "" {

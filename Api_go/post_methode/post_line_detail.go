@@ -7,6 +7,17 @@ import (
 	"net/http"
 )
 
+// @Summary Post Alighting Passenger
+// @Description Post description of a particular line
+// @Tags Post
+// @Accept json
+// @produce json
+// @Param line_id query int true "Line id to modify the description"
+// @Param line_detail query string true "Description of the line"
+// @Success 201 {string} Posting "Line detail record modified successfully"
+// @Failure 400 {string} badRequest "Bad request - Error decoding JSON or missing required fields"
+// @Failure 500 {string} serverError "Internal server error - Error updating data"
+// @Router /post_line_detali [post]
 func postLineDetail(w http.ResponseWriter, r *http.Request) {
 	var info LineDetails
 

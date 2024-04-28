@@ -1,0 +1,170 @@
+basePath: /app/v1
+host: localhost:8080
+info:
+  contact: {}
+  description: This service is a Go based API for post routes
+  title: Subway Congestion GO-API
+  version: 0.0.0
+paths:
+  /post_alighting:
+    post:
+      consumes:
+      - application/json
+      description: Post information of Alighting passenger
+      parameters:
+      - description: Encrypted Card ID of Passenger
+        in: query
+        name: encrypted_card_id
+        required: true
+        type: string
+      - description: Alighting Line
+        in: query
+        name: alighting_line
+        required: true
+        type: integer
+      - description: Alighting Station
+        in: query
+        name: alighting_station
+        required: true
+        type: integer
+      - description: Alighting Time - ISO type
+        in: query
+        name: alighting_time
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Alighting record created successfully
+          schema:
+            type: string
+        "400":
+          description: Bad request - Error decoding JSON or missing required fields
+          schema:
+            type: string
+        "500":
+          description: Internal server error - Error updating data
+          schema:
+            type: string
+      summary: Post Alighting Passenger
+      tags:
+      - Post
+  /post_boarding:
+    post:
+      consumes:
+      - application/json
+      description: Post information of Boarding passenger
+      parameters:
+      - description: Encrypted Card ID of Passenger
+        in: query
+        name: encrypted_card_id
+        required: true
+        type: string
+      - description: Boarding Line
+        in: query
+        name: boarding_line
+        required: true
+        type: integer
+      - description: Boarding Station
+        in: query
+        name: boarding_station
+        required: true
+        type: integer
+      - description: Boarding Time - ISO type
+        in: query
+        name: boarding_time
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Boarding record created successfully
+          schema:
+            type: string
+        "400":
+          description: Bad request - Error decoding JSON or missing required fields
+          schema:
+            type: string
+        "500":
+          description: Internal server error - Error updating data
+          schema:
+            type: string
+      summary: Post Boarding Passenger
+      tags:
+      - Post
+  /post_line_detali:
+    post:
+      consumes:
+      - application/json
+      description: Post description of a particular line
+      parameters:
+      - description: Line id to modify the description
+        in: query
+        name: line_id
+        required: true
+        type: integer
+      - description: Description of the line
+        in: query
+        name: line_detail
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Line detail record modified successfully
+          schema:
+            type: string
+        "400":
+          description: Bad request - Error decoding JSON or missing required fields
+          schema:
+            type: string
+        "500":
+          description: Internal server error - Error updating data
+          schema:
+            type: string
+      summary: Post Alighting Passenger
+      tags:
+      - Post
+  /post_station_detail:
+    post:
+      consumes:
+      - application/json
+      description: Post description of a particular station
+      parameters:
+      - description: Line id to modify the description
+        in: query
+        name: line_id
+        required: true
+        type: integer
+      - description: Station id to modify the description
+        in: query
+        name: station_id
+        required: true
+        type: integer
+      - description: Description of the station
+        in: query
+        name: station_detail
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Station detail record modified successfully
+          schema:
+            type: string
+        "400":
+          description: Bad request - Error decoding JSON or missing required fields
+          schema:
+            type: string
+        "500":
+          description: Internal server error - Error updating data
+          schema:
+            type: string
+      summary: Post Station details
+      tags:
+      - Post
+swagger: "2.0"

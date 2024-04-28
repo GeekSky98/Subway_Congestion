@@ -14,17 +14,280 @@ const docTemplate = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {}
+    "paths": {
+        "/day_count_average": {
+            "get": {
+                "description": "Look up average pssengers of particular time",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Average"
+                ],
+                "summary": "Get Average number of passengers at a particular time",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Line id to look up",
+                        "name": "line_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Station id to look up",
+                        "name": "station_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Today's date to look up",
+                        "name": "today_date",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Day of week to look up",
+                        "name": "day_of_week",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Hour to look up",
+                        "name": "hour",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully calculated and retrieved average passenger counts",
+                        "schema": {
+                            "$ref": "#/definitions/main.StationDayAver"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request - Error decoding JSON",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found - No data available for the given parameters",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error - Error querying database or encoding JSON",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/line_counting": {
+            "get": {
+                "description": "Look up the number of passengers on a line on a particular date",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Counting"
+                ],
+                "summary": "Get Number of passenger of the line",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Line ID of int type",
+                        "name": "line_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Today's date of DATE type",
+                        "name": "record_date",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved passenger counts",
+                        "schema": {
+                            "$ref": "#/definitions/main.LineCounting"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request - Error decoding JSON",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found - Line ID and record date not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error - Error querying database or encoding JSON",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/station_counting": {
+            "get": {
+                "description": "Check the number of passengers in the current and previous hours",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Counting"
+                ],
+                "summary": "Get Number of passenger of the Station",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Lien id of target station",
+                        "name": "line_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "station id to look up",
+                        "name": "station_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Date to look up",
+                        "name": "record_day",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Hour to look up",
+                        "name": "record_hour",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved passenger counts",
+                        "schema": {
+                            "$ref": "#/definitions/main.StationCounting"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request - Error decoding JSON",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found - Station ID and record details not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error - Error querying database or encoding JSON",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "main.LineCounting": {
+            "type": "object",
+            "properties": {
+                "alighted_passengers": {
+                    "type": "integer"
+                },
+                "line_id": {
+                    "type": "integer"
+                },
+                "record_date": {
+                    "type": "string"
+                },
+                "total_passengers": {
+                    "type": "integer"
+                }
+            }
+        },
+        "main.StationCounting": {
+            "type": "object",
+            "properties": {
+                "prev_passengers": {
+                    "type": "integer"
+                },
+                "record_day": {
+                    "type": "string"
+                },
+                "record_hour": {
+                    "type": "integer"
+                },
+                "station_id": {
+                    "type": "integer"
+                },
+                "this_time_passengers": {
+                    "type": "integer"
+                }
+            }
+        },
+        "main.StationDayAver": {
+            "type": "object",
+            "properties": {
+                "day_aver": {
+                    "type": "integer"
+                },
+                "hour_aver": {
+                    "type": "integer"
+                },
+                "line_id": {
+                    "type": "integer"
+                },
+                "station_id": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
-	Host:             "",
-	BasePath:         "",
+	Version:          "0.0.0",
+	Host:             "localhost:8082",
+	BasePath:         "/app/v1",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "Subway Congestion GO-API",
+	Description:      "This service is a Go based API for counting",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

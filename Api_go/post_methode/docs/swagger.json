@@ -1,0 +1,252 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This service is a Go based API for post routes",
+        "title": "Subway Congestion GO-API",
+        "contact": {},
+        "version": "0.0.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/app/v1",
+    "paths": {
+        "/post_alighting": {
+            "post": {
+                "description": "Post information of Alighting passenger",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Post"
+                ],
+                "summary": "Post Alighting Passenger",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Encrypted Card ID of Passenger",
+                        "name": "encrypted_card_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Alighting Line",
+                        "name": "alighting_line",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Alighting Station",
+                        "name": "alighting_station",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Alighting Time - ISO type",
+                        "name": "alighting_time",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Alighting record created successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request - Error decoding JSON or missing required fields",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error - Error updating data",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/post_boarding": {
+            "post": {
+                "description": "Post information of Boarding passenger",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Post"
+                ],
+                "summary": "Post Boarding Passenger",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Encrypted Card ID of Passenger",
+                        "name": "encrypted_card_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Boarding Line",
+                        "name": "boarding_line",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Boarding Station",
+                        "name": "boarding_station",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Boarding Time - ISO type",
+                        "name": "boarding_time",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Boarding record created successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request - Error decoding JSON or missing required fields",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error - Error updating data",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/post_line_detali": {
+            "post": {
+                "description": "Post description of a particular line",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Post"
+                ],
+                "summary": "Post Alighting Passenger",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Line id to modify the description",
+                        "name": "line_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Description of the line",
+                        "name": "line_detail",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Line detail record modified successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request - Error decoding JSON or missing required fields",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error - Error updating data",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/post_station_detail": {
+            "post": {
+                "description": "Post description of a particular station",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Post"
+                ],
+                "summary": "Post Station details",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Line id to modify the description",
+                        "name": "line_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Station id to modify the description",
+                        "name": "station_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Description of the station",
+                        "name": "station_detail",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Station detail record modified successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request - Error decoding JSON or missing required fields",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error - Error updating data",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

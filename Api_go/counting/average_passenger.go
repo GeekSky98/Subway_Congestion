@@ -9,6 +9,21 @@ import (
 	"net/http"
 )
 
+// @Summary Get Average number of passengers at a particular time
+// @Description Look up average pssengers of particular time
+// @Tags Average
+// @Accept json
+// @produce json
+// @Param line_id query int true "Line id to look up"
+// @Param station_id query int true "Station id to look up"
+// @Param today_date query int true "Today's date to look up"
+// @Param day_of_week query int true "Day of week to look up"
+// @Param hour query int true "Hour to look up"
+// @Success 200 {object} StationDayAver "Successfully calculated and retrieved average passenger counts"
+// @Failure 400 {string} badRequest "Bad request - Error decoding JSON"
+// @Failure 404 {string} notFound "Not found - No data available for the given parameters"
+// @Failure 500 {string} serverError "Internal server error - Error querying database or encoding JSON"
+// @Router /day_count_average [get]
 func getDayCountAverage(w http.ResponseWriter, r *http.Request) {
 	var req StationDayAverRequest
 	err := json.NewDecoder(r.Body).Decode(&req)

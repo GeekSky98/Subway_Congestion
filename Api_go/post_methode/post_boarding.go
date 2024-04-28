@@ -7,6 +7,19 @@ import (
 	"net/http"
 )
 
+// @Summary Post Boarding Passenger
+// @Description Post information of Boarding passenger
+// @Tags Post
+// @Accept json
+// @produce json
+// @Param encrypted_card_id query string true "Encrypted Card ID of Passenger"
+// @Param boarding_line query int true "Boarding Line"
+// @Param boarding_station query int true "Boarding Station"
+// @Param boarding_time query string true "Boarding Time - ISO type"
+// @Success 201 {string} Posting "Boarding record created successfully"
+// @Failure 400 {string} badRequest "Bad request - Error decoding JSON or missing required fields"
+// @Failure 500 {string} serverError "Internal server error - Error updating data"
+// @Router /post_boarding [post]
 func postPassengerBoarding(w http.ResponseWriter, r *http.Request) {
 	var info BoardingInfo
 

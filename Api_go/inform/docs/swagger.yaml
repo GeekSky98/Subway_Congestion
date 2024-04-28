@@ -1,4 +1,74 @@
+basePath: /app/v1
+definitions:
+  main.Line:
+    properties:
+      line_id:
+        type: integer
+      line_name:
+        type: string
+    type: object
+  main.Station:
+    properties:
+      station_id:
+        type: integer
+      station_name:
+        type: string
+      train_count:
+        type: integer
+    type: object
+host: localhost:8081
 info:
   contact: {}
-paths: {}
+  description: This service is a Go based API for elementary information
+  title: Subway Congestion GO-API
+  version: 0.0.0
+paths:
+  /lines:
+    get:
+      description: Query all information about the line
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved list of subway lines
+          schema:
+            items:
+              $ref: '#/definitions/main.Line'
+            type: array
+        "500":
+          description: Internal server error - Error querying database or encoding
+            JSON
+          schema:
+            type: string
+      summary: Get Line informations
+      tags:
+      - Informations
+  /statinsOfLine:
+    get:
+      consumes:
+      - application/json
+      description: Query information about all stations on the line
+      parameters:
+      - description: Line ID for query
+        in: query
+        name: line_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved list of subway stations
+          schema:
+            items:
+              $ref: '#/definitions/main.Station'
+            type: array
+        "500":
+          description: Internal server error - Error querying database or encoding
+            JSON
+          schema:
+            type: string
+      summary: Get station informations of line
+      tags:
+      - Informations
 swagger: "2.0"

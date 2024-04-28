@@ -7,6 +7,19 @@ import (
 	"net/http"
 )
 
+// @Summary Post Alighting Passenger
+// @Description Post information of Alighting passenger
+// @Tags Post
+// @Accept json
+// @produce json
+// @Param encrypted_card_id query string true "Encrypted Card ID of Passenger"
+// @Param alighting_line query int true "Alighting Line"
+// @Param alighting_station query int true "Alighting Station"
+// @Param alighting_time query string true "Alighting Time - ISO type"
+// @Success 201 {string} Posting "Alighting record created successfully"
+// @Failure 400 {string} badRequest "Bad request - Error decoding JSON or missing required fields"
+// @Failure 500 {string} serverError "Internal server error - Error updating data"
+// @Router /post_alighting [post]
 func postPassengerAlighting(w http.ResponseWriter, r *http.Request) {
 	var info AlightingInfo
 
